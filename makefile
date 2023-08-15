@@ -10,9 +10,9 @@ OBJS=$(wildcard $(OBJDIR)/*.o)
 APPLIB=libapp.so
 LIBS=-lraylib -ldl
 
-.PHONY:run app main final
+.PHONY:watch run app main final
 
-default: run
+default: watch
 
 run: final
 	./$(BIN)
@@ -24,3 +24,9 @@ app: $(SRCDIR)/app.c
 	$(CC) $(CFLAGS) -shared -fPIC -o ./build/$(APPLIB) $^
 main: $(SRCDIR)/main.c
 	$(CC) $(CFLAGS) -c -o ./build/$@.o $^
+
+watch:
+	@while true; do \
+		make run; \
+		sleep 1; \
+	done
