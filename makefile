@@ -4,23 +4,23 @@ BIN=app
 
 OBJDIR=build
 SRCDIR=src
+INCLDIR=include
 
-SRCS=$(wildcard $(SRCDIR)/*.c)
-OBJS=$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
-LIBS=-lraylib
+OBJS=$(wildcard $(OBJDIR)/*.o)
+APPLIB=libapp.so
+LIBS=-lraylib -ldl
 
-.PHONY: run build clean
+.PHONY:run app main final
 
 default: run
-run: build
+
+run: final
 	./$(BIN)
 
-build: $(OBJS)
-	$(CC) $(CFLAGS) -o $(BIN) $(OBJS) $(LIBS)
+final: app main 
+	$(CC) $(CFLAGS) -o $(BIN) $(OBJS) -L./build $(LIBS)  
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-clean:
-	rm -r $(OBJDIR)/* $(BIN)
+app: $(SRCDIR)/app.c
+	$(CC) $(CFLAGS) -shared -fPIC -o ./build/$(APPLIB) $^
+main: $(SRCDIR)/main.c
+	$(CC) $(CFLAGS) -c -o ./build/$@.o $^

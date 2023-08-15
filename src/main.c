@@ -1,13 +1,16 @@
+#include <dlfcn.h>
 #include <raylib.h>
 
-int main(void) {
-  InitWindow(800, 600, "hello, world!");
+typedef void (*AppFunc_t)();
 
+int main(void) {
+  void *handle = dlopen("./build/libapp.so", RTLD_LAZY);
+  AppFunc_t Init = dlsym(handle, "Init");
+  AppFunc_t Update = dlsym(handle, "Update");
+
+  Init();
   while (!WindowShouldClose()) {
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
-    DrawText("Hello, world!", 350, 250, 48, GRAY);
-    EndDrawing();
+    Update();
   }
   return 0;
 }
