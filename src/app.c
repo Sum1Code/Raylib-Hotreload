@@ -2,7 +2,7 @@
 
 // GLOBALS
 
-Vector2 pos = {400, 300};
+Vector2 pos = {200, 300};
 Vector2 size = {100, 100};
 
 void Init() {
@@ -18,6 +18,6 @@ void Update() {
   BeginDrawing();
   ClearBackground(RAYWHITE);
   // DRAW HERE
-  DrawRectangleV(pos, size, GREEN);
+  DrawRectangleV(pos, size, BLUE);
   EndDrawing();
 }

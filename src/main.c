@@ -3,26 +3,43 @@
 #include <stdio.h>
 
 typedef void (*AppFunc_t)();
+AppFunc_t Init;
+AppFunc_t Update;
 
-int main(void) {
-  void *handle = dlopen("./build/libapp.so", RTLD_LAZY);
+void *handle;
+bool reload() {
+  handle = dlopen("./build/libapp.so", RTLD_LAZY);
+
   if (!handle) {
     fprintf(stderr, "Error loading shared library: %s\n", dlerror());
-    return 1;
+    return 0;
   }
 
-  AppFunc_t Init = dlsym(handle, "Init");
-  AppFunc_t Update = dlsym(handle, "Update");
+  Init = dlsym(handle, "Init");
+  Update = dlsym(handle, "Update");
 
   if (!Init || !Update) {
     fprintf(stderr, "Error loading symbols: %s\n", dlerror());
     dlclose(handle);
-    return 1;
+    return 0;
   }
 
+  return 1;
+}
+
+int main(void) {
+  if (!reload()) {
+    fprintf(stderr, "Error Reloading: %s\n", dlerror());
+    dlclose(handle);
+    return 1;
+  }
   Init();
 
   while (!WindowShouldClose()) {
+    if (IsKeyDown(KEY_R)) {
+      dlclose(handle);
+      reload();
+    }
     Update();
   }
 
