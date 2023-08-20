@@ -1,0 +1,30 @@
+[
+ {
+  "directory": "/home/luma-chn/Devel/C/frogm",
+  "arguments": [
+   "clang",
+   "-Wall",
+   "-Wextra",
+   "-shared",
+   "-fPIC",
+   "-Iinclude",
+   "-o",
+   "./build/libapp.so",
+   "src/app.c"
+  ],
+  "file": "src/app.c"
+ },
+ {
+  "directory": "/home/luma-chn/Devel/C/frogm",
+  "arguments": [
+   "clang",
+   "-Wall",
+   "-Wextra",
+   "-c",
+   "-o",
+   "./build/main.o",
+   "src/main.c"
+  ],
+  "file": "src/main.c"
+ }
+]
