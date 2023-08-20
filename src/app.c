@@ -1,13 +1,14 @@
+#include "app_plug.h"
 #include <raylib.h>
 
 // GLOBALS
-
-Vector2 pos = {200, 300};
-Vector2 size = {100, 100};
-
+Window_t win = {.name = "Hello", .height = 600, .width = 800};
+Vector2 rect[2] = {{400, 200}, {200, 200}};
+Camera3D *cam = NULL;
 void Init() {
   // important init window, do not remove
-  InitWindow(800, 600, "GameWindow");
+  CreateWindow(win);
+  cam = CreateCamera3D();
   // CODE ONLY RUNS ONCE BEFORE UPDATE LOOP
   // code after here:
 }
@@ -18,6 +19,12 @@ void Update() {
   BeginDrawing();
   ClearBackground(RAYWHITE);
   // DRAW HERE
-  DrawRectangleV(pos, size, BLUE);
+  BeginMode3D(*cam);
+  DrawCube((Vector3){0, 0, 0}, 2.0f, 2.0f, 2.0f, BLUE);
+  EndMode3D();
   EndDrawing();
+}
+
+void CleanUp() {
+  // CLEAN UP CODE
 }

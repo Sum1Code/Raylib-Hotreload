@@ -22,7 +22,7 @@ final: app main
 
 app: $(SRCDIR)/app.c
 	mkdir -p ./build
-	$(CC) $(CFLAGS) -shared -fPIC -o ./build/$(APPLIB) $^
+	$(CC) $(CFLAGS) -shared -fPIC -I$(INCLDIR) -o ./build/$(APPLIB) $^
 main: $(SRCDIR)/main.c
 	$(CC) $(CFLAGS) -c -o ./build/$@.o $^
 
